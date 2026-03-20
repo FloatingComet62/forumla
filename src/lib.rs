@@ -5,6 +5,7 @@ pub mod client;
 pub enum Errors {
     RequestFailed,
     InvalidResponseBody,
+    InvalidResponseSchema,
 
     FailedToSetupCache,
     FailedToSaveCache,
