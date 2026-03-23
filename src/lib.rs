@@ -1,5 +1,7 @@
 pub mod cache;
 pub mod client;
+pub mod params;
+pub mod schemas;
 
 #[derive(Debug)]
 pub enum Errors {

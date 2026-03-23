@@ -1,4 +1,4 @@
-use forumla::{self, client::RequestClient, cache::Cache};
+use forumla::{cache::Cache, client::RequestClient, params::{DriverParams}};
 use tracing::error;
 
 #[tokio::main]
@@ -15,5 +15,9 @@ async fn main() {
         return;
     }
 
-    let _ = client.list_all_f1_drivers().await;
+    let mut italian_drivers = DriverParams::default();
+    italian_drivers.country_code = Some("ITA".to_string());
+
+    let drivers = client.list_all_drivers(italian_drivers).await;
+    println!("{:?}", drivers);
 }

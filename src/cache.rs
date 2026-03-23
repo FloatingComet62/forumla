@@ -1,6 +1,6 @@
 use crate::{Errors, Result};
 use std::{fs, path::PathBuf};
-use tracing::{instrument, warn};
+use tracing::{debug, warn};
 
 #[derive(Debug)]
 pub struct Cache {
@@ -13,31 +13,31 @@ impl Cache {
             .ok_or_else(|| {
                 warn!("Could not determine cache directory");
                 Errors::FailedToSetupCache
-            })?.join("forumla");
+            })?
+            .join("forumla");
         fs::create_dir_all(&cache_dir).map_err(|e| {
             warn!("Failed to create cache directory: {:?}", e);
             Errors::FailedToSetupCache
         })?;
 
-        Ok(Self {
-            cache_dir
-        })
+        Ok(Self { cache_dir })
     }
 
-    #[instrument]
     pub fn set(&self, key: &str, value: &serde_json::Value) -> Result<()> {
+        debug!("Adding {} to cache", key);
         fs::write(
-            self.cache_dir.join(format!("{}.json", key)), 
-            value.to_string()
-        ).map_err(|e| {
+            self.cache_dir.join(format!("{}.json", key)),
+            value.to_string(),
+        )
+        .map_err(|e| {
             warn!("Cache file error: {:?}", e);
             Errors::FailedToSaveCache
         })?;
         Ok(())
     }
 
-    #[instrument]
     pub fn get(&self, key: &str) -> Result<serde_json::Value> {
+        debug!("Looking for {} in cache", key);
         let file_name = format!("{}.json", key);
         let data = fs::read(self.cache_dir.join(file_name.clone())).map_err(|_| {
             warn!("Failed to read file {:?}", file_name);
@@ -51,7 +51,7 @@ impl Cache {
             warn!("Cache content is invalid JSON");
             Errors::FailedToLoadCache
         })?;
-
+        debug!("Cache {} found", key);
         Ok(output)
     }
 
