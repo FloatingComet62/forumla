@@ -67,7 +67,13 @@ impl RequestClient {
         let Some(cache) = &self.cache else {
             return self.request_nocached(path).await;
         };
-        let key = path.replace("/", "_");
+        let mut key = path.replace("/", "_");
+        key = key.replace("?", "_");
+        key = key.replace("=", "_");
+        key = key.replace("%", "_");
+        key = key.replace("-", "_");
+        key = key.replace(".", "_");
+        key = key.replace("~", "_");
         if let Ok(cached_data) = cache.get(&key) {
             return Ok(cached_data);
         }
