@@ -3,3 +3,9 @@ dev loglevel="debug":
 
 fmt:
   cargo fmt
+
+publish:
+  cd forumla-macros
+  cargo publish
+  cd ..
+  cargo publish
