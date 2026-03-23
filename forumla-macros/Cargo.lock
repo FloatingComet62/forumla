@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "params_macro"
+name = "forumla-macros"
 version = "0.1.0"
