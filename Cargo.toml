@@ -1,6 +1,11 @@
 [package]
 name = "forumla"
 version = "0.1.0"
+description = "A cargo crate for accessing and analyzing Formula 1 results, schedules, timing data & telemetry"
+homepage = "https://github.com/FloatingComet62/forumla"
+repository = "https://github.com/FloatingComet62/forumla"
+readme = "README.md"
+license-file = "LICENSE"
 edition = "2024"
 
 [dependencies]
